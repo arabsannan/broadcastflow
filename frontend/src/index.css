@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/*
+  Design tokens for BroadcastFlow.
+
+  Palette: white canvas, slate structure, one emerald signal color —
+  reserved for anything "resolved" or "successful" (a filled-in merge
+  field, a valid contact, a completed send). Nothing else gets to be
+  colorful, so emerald keeps its meaning.
+
+  Type: Space Grotesk carries the product's voice (wordmark, page
+  titles) but is used sparingly. Inter is the workhorse for everything
+  you read and fill in. IBM Plex Mono is reserved specifically for
+  anything that is, or resembles, a merge field or raw data — the
+  {{name}} placeholders, phone numbers, JSON-ish values — because this
+  product's entire job is turning templated tokens into real values,
+  and monospace is the honest way to signal "this is a token."
+*/
+
+:root {
+  --color-canvas: #ffffff;
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-signal: #059669;
+  --color-signal-soft: #ecfdf5;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* A resolved merge field: {{name}} -> Sarah. Used in TemplateEditor's
+   live-highlighted textarea overlay and in PreviewCard's rendered
+   messages. This pairing (mono placeholder -> emerald-underlined
+   value) is the one recurring visual signature in the whole app. */
+.merge-token {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-signal);
+  background: var(--color-signal-soft);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.merge-resolved {
+  text-decoration: underline;
+  text-decoration-color: var(--color-signal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* Visible keyboard focus everywhere, per accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
