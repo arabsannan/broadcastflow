@@ -37,6 +37,11 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Show versions (for debugging)
+        run: |
+          node --version
+          npm --version
+
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm ci
