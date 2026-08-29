@@ -7,13 +7,10 @@ these functions trivial to unit test on their own.
 
 import re
 from typing import Optional
+import phonenumbers
+from phonenumbers import PhoneNumberFormat
 
 REQUIRED_COLUMNS = {"name", "number"}
-
-# Accepts optional leading "+", then 8-15 digits. Good enough for a
-# hackathon MVP; swap in a library like `phonenumbers` if you need
-# strict country-code validation later.
-PHONE_PATTERN = re.compile(r"^\+?\d{8,15}$")
 
 
 def normalize_phone(raw: str) -> str:
@@ -21,13 +18,23 @@ def normalize_phone(raw: str) -> str:
     return re.sub(r"[\s\-()]", "", str(raw).strip())
 
 
-def validate_phone(raw: str) -> tuple[bool, Optional[str]]:
-    """Return (is_valid, error_message)."""
+def validate_phone(raw: str) -> tuple[bool, str | None]:
     normalized = normalize_phone(raw)
+
     if not normalized:
         return False, "Missing phone number"
-    if not PHONE_PATTERN.match(normalized):
+
+    if not normalized.startswith("+"):
+        return False, "Country code required"
+
+    try:
+        number = phonenumbers.parse(normalized, None)
+    except phonenumbers.NumberParseException:
         return False, "Invalid phone number format"
+
+    if not phonenumbers.is_valid_number(number):
+        return False, "Invalid phone number"
+
     return True, None
 
 
