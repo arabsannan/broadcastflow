@@ -15,10 +15,12 @@ REQUIRED_COLUMNS = {"name", "number"}
 
 def normalize_phone(raw: str) -> str:
     """Strip spaces/dashes/parentheses so '+1 (555) 123-4567' -> '+15551234567'."""
+    text = str(raw).strip().lower()
+    if text in {"", "nan", "n/a", "none"}:
+        return ""
     return re.sub(r"[\s\-()]", "", str(raw).strip())
 
-
-def validate_phone(raw: str) -> tuple[bool, str | None]:
+def validate_phone(raw: str ) -> tuple[bool, str | None]:
     normalized = normalize_phone(raw)
 
     if not normalized:
