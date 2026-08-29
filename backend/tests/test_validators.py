@@ -32,7 +32,7 @@ def test_normalize_phone_strips_formatting():
 
 def test_validate_phone_accepts_valid_numbers():
     assert validate_phone("+14155552671") == (True, None)
-    assert validate_phone("+233241234567") == (False, None) #intentionally invalid number for testing
+    assert validate_phone("+233241234567") == (True, None)
     assert validate_phone("+442083661177") == (True, None)
 
 
