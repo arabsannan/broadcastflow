@@ -37,6 +37,9 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Use project npm version
+        run: npm install -g npm@11.6.2
+
       - name: Show versions (for debugging)
         run: |
           node --version
