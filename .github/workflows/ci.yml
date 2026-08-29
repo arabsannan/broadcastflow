@@ -40,11 +40,6 @@ jobs:
       - name: Use project npm version
         run: npm install -g npm@11.6.2
 
-      - name: Show versions (for debugging)
-        run: |
-          node --version
-          npm --version
-
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm ci
